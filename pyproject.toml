@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "crdr-wacv"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [
+    { include = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+torch = {version = "1.12.1+cu113", source = "torch_cu113"}
+torchvision = {version = "0.13.1+cu113", source = "torch_cu113"}
+torchaudio = {version = "0.12.1", source = "torch_cu113"}
+compressai = "1.2.4"
+opencv-python = "4.5.5.62"
+pandas = "1.4.1"
+python-log-indenter = "^0.9"
+tqdm = "^4.66.4"
+pyyaml = "^6.0.1"
+addict = "^2.4.0"
+lpips = "^0.1.4"
+pytorch-fid = "^0.3.0"
+scikit-image = "0.19.3"
+dists-pytorch = "^0.1"
+
+
+[[tool.poetry.source]]
+name = "torch_cu113"
+url = "https://download.pytorch.org/whl/cu113"
+priority = "explicit"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
