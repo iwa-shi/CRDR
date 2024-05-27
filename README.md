@@ -46,7 +46,7 @@ You can run a quick test on the images in `./demo_images` (three images from [Ko
 ```
 poetry run python scripts/compress.py --config_path ./config/crdr.yaml --model_path ./crdr.pth.tar --img_dir ./demo_images --save_dir ./demo_results/crdr_q000_b384_kodak -q 0.00 -b 3.84 --decompress -d cuda
 ```
-Binary compressed files (`kodimXXX.pth`), reconstructions (`kodimXXX.png`), `_bitrates.csv`, and `_avg_bitrate.json` will be stored in `./demo_results/crdr_q000_b384_kodak`.
+Binary compressed files (`kodimXXX.bin`), reconstructions (`kodimXXX.png`), `_bitrates.csv`, and `_avg_bitrate.json` will be stored in `./demo_results/crdr_q000_b384_kodak`.
 Please verify that the reconstructions look correct.
 
 

@@ -95,7 +95,7 @@ def main():
         out_dict = model.compress(img, **compress_kwargs)
 
         string_list = out_dict['string_list']
-        bin_path = os.path.join(save_dir, img_name.replace('.png', '.pth'))
+        bin_path = os.path.join(save_dir, img_name.replace('.png', '.bin'))
         save_byte_strings(bin_path, string_list)
         actual_byte = os.path.getsize(bin_path)
 
