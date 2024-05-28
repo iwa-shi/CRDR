@@ -86,9 +86,9 @@ class BaseTrainer(object):
     def init_wandb(self) -> None:
         if self.opt.get('wandb_dryrun'):
             os.environ['WANDB_MODE'] = 'dryrun'
-        wandb_dir = self.opt.wandb_dir
+        wandb_root = self.opt.wandb_root
         wandb.init(
-            dir=wandb_dir,
+            dir=wandb_root,
             project=self.opt.project_name, 
             name=self.opt.exp, 
             id=self.opt.exp, 

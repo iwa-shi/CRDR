@@ -1,5 +1,4 @@
 project_name: crdr
 
 ckpt_root: ./checkpoint
-debug_dir: ./debug_log
-wandb_dir: ./
+wandb_root: ./
