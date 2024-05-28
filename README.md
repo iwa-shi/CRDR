@@ -4,7 +4,7 @@ This is the official PyTorch implementation of **"Controlling Rate, Distortion, 
 
 We have proposed a _single image compression model_ that can control bitrate, distortion, and realism.
 As shown below, our method can cover a wide range of rate-distortion-realism points within a single model.
-Please refer to our [paper](https://openaccess.thecvf.com/content/WACV2024/html/Iwai_Controlling_Rate_Distortion_and_Realism_Towards_a_Single_Comprehensive_Neural_WACV_2024_paper.html) for more details.
+Please refer to our [paper](https://arxiv.org/abs/2405.16817) for more details.
 
 <img src="assets/thumbnail.jpg" width="60%">
 
@@ -113,4 +113,5 @@ We thank the authors of the following repositories:
 - [ELIC (unofficial implementation by JiangWeibeta)](https://github.com/JiangWeibeta/ELIC)
 - [HiFiC](https://github.com/tensorflow/compression/tree/master/models/hific)
 - [HiFiC (unofficial PyTorch Implementation by Justin-Tan)](https://github.com/Justin-Tan/high-fidelity-generative-compression)
+- [tensorflow-compression](https://github.com/tensorflow/compression/tree/master)
 - [MMEngine](https://github.com/open-mmlab/mmengine/tree/main): For config and registry.
