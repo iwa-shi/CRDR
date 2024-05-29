@@ -1,6 +1,9 @@
-# CRDR Image Compression (WACV2024 Oral)
+# Controlling Rate, Distortion, and Realism: Towards a Single Comprehensive Neural Image Compression Model [WACV2024]
 
-This is the official PyTorch implementation of **"Controlling Rate, Distortion, and Realism: Towards a Single Comprehensive Neural Image Compression Model (WACV2024)"**.
+
+This is the official PyTorch implementation of  
+["Controlling Rate, Distortion, and Realism: Towards a Single Comprehensive Neural Image Compression Model (WACV2024, Oral)"](https://arxiv.org/abs/2405.16817).  
+[Shoma Iwai](https://iwa-shi.github.io/), [Tomo Miyazaki](https://tomomiyazaki.github.io/), and [Shinichiro Omachi](http://www.iic.ecei.tohoku.ac.jp/~machi/index-e.html)
 
 We have proposed a _single image compression model_ that can control bitrate, distortion, and realism.
 As shown below, our method can cover a wide range of rate-distortion-realism points within a single model.
@@ -47,8 +50,8 @@ You can run a quick test on the images in `./demo_images` (three images from [Ko
 poetry run python scripts/compress.py --config_path ./config/crdr.yaml --model_path ./crdr.pth.tar --img_dir ./demo_images --save_dir ./demo_results/crdr_q000_b384_kodak -q 0.00 -b 3.84 --decompress -d cuda
 ```
 Binary compressed files (`kodimXXX.bin`), reconstructions (`kodimXXX.png`), `_bitrates.csv`, and `_avg_bitrate.json` will be stored in `./demo_results/crdr_q000_b384_kodak`.
-Please verify that the reconstructions look correct.
 
+The average bitrate should be `avg_bpp: 0.0641`. Please verify that the reconstructions look correct.
 
 
 > [!NOTE]
@@ -115,3 +118,7 @@ We thank the authors of the following repositories:
 - [HiFiC (unofficial PyTorch Implementation by Justin-Tan)](https://github.com/Justin-Tan/high-fidelity-generative-compression)
 - [tensorflow-compression](https://github.com/tensorflow/compression/tree/master)
 - [MMEngine](https://github.com/open-mmlab/mmengine/tree/main): For config and registry.
+
+
+## Issues
+If you have any questions or encounter any issues, please feel free to open an issue.
