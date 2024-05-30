@@ -117,7 +117,7 @@ class BaseModel(nn.Module):
             if isinstance(m, EntropyBottleneck):
                 m.update(force=False)
 
-    def separete_aux_parameters(self) -> Tuple[Dict, Dict]:
+    def separate_aux_parameters(self) -> Tuple[Dict, Dict]:
         parameters = set(n for n, p in self.named_parameters() if not n.endswith(".quantiles") and p.requires_grad)
         aux_parameters = set(n for n, p in self.named_parameters() if n.endswith(".quantiles") and p.requires_grad)
         all_params = set(n for n, p in self.named_parameters() if p.requires_grad)

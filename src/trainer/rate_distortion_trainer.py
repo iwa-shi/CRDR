@@ -27,7 +27,7 @@ class RateDistortionTrainer(BaseTrainer):
             self.perceptual_loss = None
 
     def _set_optimizer_scheduler(self):
-        parameters_dict, aux_parameters_dict = self.comp_model.separete_aux_parameters()
+        parameters_dict, aux_parameters_dict = self.comp_model.separate_aux_parameters()
 
         # set g_optimizer
         optim_opt = deepcopy(self.opt.optim)
@@ -121,7 +121,7 @@ class RateDistortionTrainer(BaseTrainer):
                          strict: bool=True,
                          **kwargs) -> None:
         ## get checkpoint path
-        path_handler = PathHandler(self.opt.path.ckpt_dir, exp)
+        path_handler = PathHandler(self.opt.path.ckpt_root, exp)
         model_ckpt_path = path_handler.get_ckpt_path('comp_model', itr)
         assert os.path.exists(model_ckpt_path)
 
