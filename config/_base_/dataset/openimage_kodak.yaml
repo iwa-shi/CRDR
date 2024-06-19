@@ -1,0 +1,14 @@
+dataset:
+  batch_size: 8
+  train_dataset:
+    root_dir: path/to/openimage # <<== modify this
+    name: openimage
+    type: ImageDataset
+    image_size: 256
+    subset_list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    resize_range: null
+    interpolation: bilinear
+  eval_dataset:
+    root_dir: path/to/kodak # <<== modify this
+    name: Kodak
+    type: ImageDataset

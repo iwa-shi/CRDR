@@ -1,0 +1,32 @@
+model_type: HyperpriorModel
+subnet:
+  encoder:
+    type: ElicEncoder
+    in_ch: 3
+    out_ch: 320 # bottleneck_y
+    main_ch: 192
+    block_mid_ch: 96
+  decoder: 
+    type: ElicDecoder
+    in_ch: 320 # bottleneck_y
+    out_ch: 3
+    main_ch: 256
+    block_mid_ch: 128
+    pixel_shuffle: False
+    use_tanh: False
+  hyperencoder:
+    type: Cheng20HyperEncoder
+    in_ch: 320 # bottleneck_y
+    out_ch: 192 # bottleneck_z
+    main_ch: 192
+  hyperdecoder:
+    type: Cheng20HyperDecoder
+    in_ch: 192
+    out_ch: 640 # scale + mean
+    main_ch: 192
+  entropy_model_z:
+    type: SteEntropyBottleneck
+    channels: 192 # bottleneck_z
+  entropy_model_y:
+    type: SteGaussianMeanScaleConditional
+    scale_bound: 0.11

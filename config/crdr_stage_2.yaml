@@ -1,0 +1,43 @@
+_base_: [
+  ./_base_/default.yaml,
+  ./_base_/training/default.yaml,
+  ./_base_/dataset/openimage_kodak.yaml,
+  ./_base_/model/interp_ca_elic_charm.yaml,
+]
+
+# Start with the pretrained model from stage 1. Update the path if necessary.
+pretrained_weight_path: ./checkpoint/crdr_stage1/model/comp_model_iter1000K.pth.tar
+
+trainer:
+  type: RateDistortionTrainer
+
+loss:
+  rate_loss:
+    type: HificVariableRateLoss
+    lambda_A: [3.6, 1.8, 0.8, 0.4, 0.1] # rate_level = 5
+    lambda_B: 0.015625 # 2 ** (-6)
+    target_rate: [0.08, 0.16, 0.36, 0.72, 1.2] # rate_level = 5
+  distortion_loss:
+    type: MSELoss
+    loss_weight: 150
+  perceptual_loss:
+    type: LPIPSLoss
+    net: alex
+    loss_weight: 1.0
+
+optim:
+  g_optimizer:
+    type: Adam
+    lr: 0.0001
+  g_scheduler:
+    type: MultiStepLR
+    milestones: [800000]
+    gamma: 0.1
+
+total_iter: 1000000
+
+keep_step: [
+  980000,
+  990000,
+  1000000,
+]

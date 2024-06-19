@@ -1,0 +1,15 @@
+keep_training_state: False
+keep_discriminator: False
+
+start_iter: 0
+time_step: 1000
+wandb_loss_step: 10000
+eval_step: 10000
+log_step: 100
+save_step: 5000
+
+optim:
+  clip_max_norm: 1.0
+  aux_optimizer:
+    type: Adam
+    lr: 0.001

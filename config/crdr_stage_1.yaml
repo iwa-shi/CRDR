@@ -1,0 +1,41 @@
+_base_: [
+  ./_base_/default.yaml,
+  ./_base_/training/default.yaml,
+  ./_base_/dataset/openimage_kodak.yaml,
+  ./_base_/model/elic_charm.yaml,
+]
+
+trainer:
+  type: RateDistortionTrainer
+
+loss:
+  rate_loss: # HiFiC Rate Loss w/o scheduling
+    type: HificRateLoss
+    lambda_A: 0.05
+    lambda_B: 0.015625 # 2 ** (-6)
+    target_rate: 1.5
+  distortion_loss:
+    type: MSELoss
+    loss_weight: 150
+  perceptual_loss:
+    type: LPIPSLoss
+    net: alex
+    loss_weight: 1.0
+
+# Optimizer & LR scheduler
+optim:
+  g_optimizer:
+    type: Adam
+    lr: 0.0001
+  g_scheduler:
+    type: MultiStepLR
+    milestones: [800000]
+    gamma: 0.1
+
+total_iter: 1000000
+
+keep_step: [
+  980000,
+  990000,
+  1000000,
+]

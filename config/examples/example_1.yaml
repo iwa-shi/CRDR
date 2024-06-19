@@ -1,0 +1,59 @@
+#####################################################################
+# Customize example1:
+# - w/o Charm Model
+# - Change rate_level from 5 to 3
+# - Reduce main_ch of the decoder from 256 to 192
+# - 1M iter -> 500K iter
+####################################################################
+
+_base_: [
+  ../_base_/default.yaml,
+  ../_base_/training/default.yaml,
+  ../_base_/dataset/openimage_kodak.yaml,
+  ../_base_/model/interp_ca_elic_hyperprior.yaml, # w/o Charm Model
+]
+
+# Update the path if starting from pre-trained model.
+pretrained_weight_path: null
+
+trainer:
+  type: RateDistortionTrainer
+
+subnet:
+  encoder:
+    rate_level: 3 # 5 -> 3
+  decoder: 
+    main_ch: 192 # 256 -> 192
+    block_mid_ch: 96 # 128 -> 96
+    rate_level: 3 # 5 -> 3
+
+loss:
+  rate_loss:
+    type: HificVariableRateLoss
+    lambda_A: [3.6, 1.8, 0.8] # rate_level = 5 -> 3
+    lambda_B: 0.015625 # 2 ** (-6)
+    target_rate: [0.08, 0.16, 0.36] # rate_level = 5 -> 3
+  distortion_loss:
+    type: MSELoss
+    loss_weight: 150
+  perceptual_loss:
+    type: LPIPSLoss
+    net: alex
+    loss_weight: 1.0
+
+optim:
+  g_optimizer:
+    type: Adam
+    lr: 0.0001
+  g_scheduler:
+    type: MultiStepLR
+    milestones: [400000]
+    gamma: 0.1
+
+total_iter: 500000
+
+keep_step: [
+  480000,
+  490000,
+  500000,
+]

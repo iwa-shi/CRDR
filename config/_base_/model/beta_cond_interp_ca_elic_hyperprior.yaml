@@ -1,0 +1,50 @@
+model_type: BetaCondInterpCaHyperpriorModel
+subnet:
+  encoder:
+    type: ElicInterpCaEncoder
+    in_ch: 3
+    out_ch: 320 # bottleneck_y
+    main_ch: 192
+    block_mid_ch: 96
+    rate_level: 5
+    ca_kwargs:
+      actv: softplus
+      use_interp: True
+      use_bias: True
+  decoder: 
+    type: ElicInterpCaBetaCondDecoder
+    ## beta cond settings
+    L: 10
+    max_beta: 5.12
+    cond_ch: 512
+    weight_init: True
+    ## decoder settings
+    in_ch: 320 # bottleneck_y
+    out_ch: 3
+    main_ch: 256
+    block_mid_ch: 128
+    pixel_shuffle: False
+    use_tanh: False
+    ## InterpCa settings
+    rate_level: 5
+    use_pi: False
+    ca_kwargs:
+      actv: softplus
+      use_interp: True
+      use_bias: True
+  hyperencoder:
+    type: Cheng20HyperEncoder
+    in_ch: 320 # bottleneck_y
+    out_ch: 192 # bottleneck_z
+    main_ch: 192
+  hyperdecoder:
+    type: Cheng20HyperDecoder
+    in_ch: 192
+    out_ch: 640 # scale + mean
+    main_ch: 192
+  entropy_model_z:
+    type: SteEntropyBottleneck
+    channels: 192 # bottleneck_z
+  entropy_model_y:
+    scale_bound: 0.11
+    type: SteGaussianMeanScaleConditional

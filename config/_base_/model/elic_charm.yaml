@@ -1,0 +1,36 @@
+model_type: HyperpriorCharmModel
+subnet:
+  encoder:
+    type: ElicEncoder
+    in_ch: 3
+    out_ch: 320 # bottleneck_y
+    main_ch: 192
+    block_mid_ch: 96
+  decoder: 
+    type: ElicDecoder
+    in_ch: 320 # bottleneck_y
+    out_ch: 3
+    main_ch: 256
+    block_mid_ch: 128
+    pixel_shuffle: False
+    use_tanh: False
+  hyperencoder:
+    type: Minnen20HyperEncoder
+    bottleneck_y: 320
+    bottleneck_z: 192
+  hyperdecoder:
+    type: Minnen20HyperDecoder
+    bottleneck_z: 192
+    hyper_out_ch: 640
+  context_model:
+    type: Minnen20CharmContextModel
+    num_slices: 10
+    hyper_out_ch: 640
+    bottleneck_y: 320
+    max_support_slices: 5
+  entropy_model_z:
+    type: SteEntropyBottleneck
+    channels: 192 # bottleneck_z
+  entropy_model_y:
+    type: SteGaussianMeanScaleConditional
+    scale_bound: 0.11

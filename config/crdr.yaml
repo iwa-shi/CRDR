@@ -1,3 +1,4 @@
+## WARNING: This config is only for inference
 _base_: [
   ./_base_/default.yaml,
   ./_base_/model/beta_cond_interp_ca_elic_charm.yaml,

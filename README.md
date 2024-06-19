@@ -1,9 +1,9 @@
 # Controlling Rate, Distortion, and Realism: Towards a Single Comprehensive Neural Image Compression Model [WACV2024]
 
-
 This is the official PyTorch implementation of  
 ["Controlling Rate, Distortion, and Realism: Towards a Single Comprehensive Neural Image Compression Model (WACV2024, Oral)"](https://arxiv.org/abs/2405.16817).  
 [Shoma Iwai](https://iwa-shi.github.io/), [Tomo Miyazaki](https://tomomiyazaki.github.io/), and [Shinichiro Omachi](http://www.iic.ecei.tohoku.ac.jp/~machi/index-e.html)
+
 
 We have proposed a _single image compression model_ that can control bitrate, distortion, and realism.
 As shown below, our method can cover a wide range of rate-distortion-realism points within a single model.
@@ -11,6 +11,10 @@ Please refer to our [paper](https://arxiv.org/abs/2405.16817) for more details.
 
 <img src="assets/thumbnail.jpg" width="60%">
 
+## News
+
+#### - 2024/6/20: Training code, instructions, reproduced training log, and pre-trained stage-2 model are released! See [training.md](./docs/training.md).
+#### - 2024/5/27: Repository opened.
 
 ## Installation
 #### 0. Install [poetry](https://python-poetry.org/).
@@ -54,6 +58,7 @@ Binary compressed files (`kodimXXX.bin`), reconstructions (`kodimXXX.png`), `_bi
 The average bitrate should be `avg_bpp: 0.0641`. Please verify that the reconstructions look correct.
 
 
+
 > [!NOTE]
 > Currently, only single-GPU is supported. If you are using a multi-GPU machine, you can specify `CUDA_VISIBLE_DEVICES={DEVICE_ID}` to avoid unexpected behavior.
 
@@ -90,11 +95,14 @@ poetry run python scripts/calc_metrics.py --real_dir ./datasets/CLIC/test --fake
 
 You can find results on CLIC2020, Kodak, and DIV2K at [rd_results](./rd_results/).
 
+## Training
+See [./docs/training.md](./docs/training.md).
+
 ## TODO List
 - [x] Release repository
 - [x] Pre-trained model
 - [x] Test code and instructions
-- [ ] Training code and instructions
+- [x] Training code and instructions
 
 ## Citation
 If you find this code useful for your research, please consider citing our paper:
@@ -119,6 +127,5 @@ We thank the authors of the following repositories:
 - [tensorflow-compression](https://github.com/tensorflow/compression/tree/master)
 - [MMEngine](https://github.com/open-mmlab/mmengine/tree/main): For config and registry.
 
-
 ## Issues
-If you have any questions or encounter any issues, please feel free to open an issue.
+If you have any questions or encounterd any issues, please feel free to open issue.

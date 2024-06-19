@@ -138,6 +138,7 @@ dmypy.json
 cython_debug/
 */checkpoint/
 
+# shoiwai write
 wandb/
 old/
 .DS_Store
@@ -148,3 +149,5 @@ results/
 checkpoint/
 pretrained_model/
 *.pth.tar
+crdr_results/
+demo_results/
