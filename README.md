@@ -13,7 +13,7 @@ Please refer to our [paper](https://arxiv.org/abs/2405.16817) for more details.
 
 ## News
 
-#### - 2024/6/20: Training code, instructions, reproduced training log, and pre-trained stage-2 model are released! See [training.md](./docs/training.md).
+#### - 2024/6/19: Training code, instructions, reproduced training log, and pre-trained stage-2 model are released! See [training.md](./docs/training.md).
 #### - 2024/5/27: Repository opened.
 
 ## Installation
