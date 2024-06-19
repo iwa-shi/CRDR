@@ -79,7 +79,8 @@ def main():
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False)
 
     compress_kwargs = {}
-    compress_kwargs['rate_ind'] = opt.quality
+    if opt.quality >= 0.0:
+        compress_kwargs['rate_ind'] = opt.quality
 
     model = build_comp_model(opt).to(opt.device)
     model.load_learned_weight(ckpt_path=opt.model_path)
@@ -116,7 +117,10 @@ def main():
 
         if opt.decompress:
             loaded_string_list = load_byte_strings(bin_path)
-            fake_img, z_hat, y_hat = model.decompress(loaded_string_list, beta=opt.beta)
+            decompress_kwargs = {}
+            if opt.beta >= 0.0:
+                decompress_kwargs['beta'] = opt.beta
+            fake_img, z_hat, y_hat = model.decompress(loaded_string_list, **decompress_kwargs)
             recon_path = os.path.join(save_dir, img_name)
             img_utils.imwrite(recon_path, fake_img)
             # print('y_hat allclose:', torch.allclose(y_hat, out_dict['y_hat'])) # for debug. should be True
