@@ -27,6 +27,5 @@ class OpenImageImageDataset(BaseImageDataset):
         else:
             img_path_list = get_openimage_path_list(root_dir, subset_list)
         img_path_list.sort()
-        print(kwargs)
         super().__init__(img_path_list, is_train, image_size, **kwargs)
 

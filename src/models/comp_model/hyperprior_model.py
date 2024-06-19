@@ -80,7 +80,6 @@ class HyperpriorModel(BaseModel):
     def likelihood_to_bit(
         self, likelihood: Tensor, num_pixel: int
     ) -> Tuple[Tensor, Tensor]:
-        # bitcost = -(torch.log(likelihood).sum()) / np.log(2)
         sum_dims = tuple(range(1, likelihood.ndim))
         bitcost = -(torch.log(likelihood).sum(dim=sum_dims)) / np.log(2)
         return bitcost, bitcost / num_pixel

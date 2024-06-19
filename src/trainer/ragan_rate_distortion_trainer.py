@@ -28,7 +28,7 @@ class RaGANRateDistortionTrainer(GANRateDistortionTrainer):
         if self.perceptual_loss:
             g_loss_dict['perceptual'] = self.perceptual_loss(real_images, fake_images)
 
-        # RaGAM adv loss
+        # RaGAN adv loss
         real_d_pred = self.discriminator(real_images, **other_outputs).detach()
         fake_g_pred = self.discriminator(fake_images, **other_outputs)
 

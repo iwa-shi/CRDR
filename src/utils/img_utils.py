@@ -3,7 +3,6 @@ import math
 
 from typing import TypeVar
 
-import os
 import cv2
 import numpy as np
 import torch
@@ -12,7 +11,6 @@ from pytorch_msssim import ssim, ms_ssim
 
 from typing import Dict, Generator, List, Union, Tuple
 
-from torch.types import Number
 
 Array_or_Tensor = TypeVar("Array_or_Tensor", np.ndarray, torch.Tensor)
 
@@ -126,8 +124,8 @@ def calc_psnr(real: Union[np.ndarray, torch.Tensor], fake :Union[np.ndarray, tor
     assert isinstance(fake, np.ndarray)
 
     # if data_range == 255:
-    real = real.astype(np.uint8).astype(np.float)
-    fake = fake.astype(np.uint8).astype(np.float)
+    real = real.astype(np.uint8).astype(np.float32)
+    fake = fake.astype(np.uint8).astype(np.float32)
     mse = np.mean(np.power(real - fake, 2))
 
     # return 10.0 * np.log10((data_range ** 2) / mse)

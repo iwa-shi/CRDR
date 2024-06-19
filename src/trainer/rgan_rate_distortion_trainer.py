@@ -22,7 +22,6 @@ class RGANRateDistortionTrainer(GANRateDistortionTrainer):
         # run model
         real_images, fake_images, bpp, other_outputs = self.run_comp_model(data_dict)
         log_dict['qbpp'] = other_outputs.get('qbpp', -1)
-        # print(other_outputs['rate_ind'])
         
         # calculate losses
         g_loss_dict = {}

@@ -3,6 +3,7 @@ from typing import List
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch import Tensor
 from pytorch_msssim import MS_SSIM
 
 from src.utils.registry import LOSS_REGISTRY
@@ -12,7 +13,7 @@ class MSELoss(nn.Module):
     def __init__(self,
                  loss_weight: float,
                  normalize_img: bool=True,
-                 mse_scale: str='0_255'):
+                 mse_scale: str='0_1'):
         """_summary_
 
         Args:
@@ -22,31 +23,27 @@ class MSELoss(nn.Module):
         """
         super().__init__()
         assert normalize_img
-        assert mse_scale in ['0_255', '0_1'], f'mse_scale shoukd be "0_255" or "0_1", but {mse_scale} {type(mse_scale)}'
+        assert mse_scale in ['0_255', '0_1'], f'mse_scale shoukd be "0_255" or "0_1", but {mse_scale} ({type(mse_scale)})'
         self.lamb_mse = loss_weight
         self.mse = nn.MSELoss()
         normalize_func_dict = {'0_255': self.img_range_to_255, '0_1': self.img_range_to_01}
         self.normalize_func = normalize_func_dict[mse_scale]
-        # self.normalize_func = normalize_func_dict[mse_scale] if normalize_img else None
-        # alpha_dict = {'0_255': (255 ** 2) / 4000, '0_1': 1 / 4}
-        # self.alpha = 1 if normalize_img else alpha_dict[mse_scale]
 
     @staticmethod
-    def img_range_to_255(img: torch.Tensor) -> torch.Tensor:
+    def img_range_to_255(img: Tensor) -> Tensor:
         img = (img + 1.) / 2. # [-1, 1] -> [0, 1]
         return img * 255. # [0, 1] -> [0, 255]
 
     @staticmethod
-    def img_range_to_01(img: torch.Tensor) -> torch.Tensor:
+    def img_range_to_01(img: Tensor) -> Tensor:
         return (img + 1.) / 2. # [-1, 1] -> [0, 1]
 
-    def forward(self, real_images: torch.Tensor, fake_images: torch.Tensor, **kwargs):
+    def forward(self, real_images: Tensor, fake_images: Tensor, **kwargs):
         if self.normalize_func:
             real_images = self.normalize_func(real_images)
             fake_images = self.normalize_func(fake_images)
         mse = self.mse(real_images, fake_images)
         return self.lamb_mse * mse
-
 
 
 @LOSS_REGISTRY.register()

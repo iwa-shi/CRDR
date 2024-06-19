@@ -98,7 +98,6 @@ class InterpCaHyperpriorCharmModel(InterpCaHyperpriorModel):
             y, hyper_out, self.entropy_model_y
         )
 
-        header_handler = MultiRateHeaderHandler(use_non_zero_ind=False)
         header_str = self.header_handler.encode((H, W), y_hat, rate_ind=rate_ind)
 
         pred_y_bitcost, pred_y_bpp = self.likelihood_to_bit(y_likelihood, H * W)

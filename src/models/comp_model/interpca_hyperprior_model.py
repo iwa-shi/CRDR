@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Union, List, Tuple
+from typing import Dict, Optional, Union, List, Tuple, Any
 
 
 import os
@@ -61,13 +61,15 @@ class InterpCaHyperpriorModel(HyperpriorModel):
             **out_dict.get("others", {}),
         )
 
-    def forward(self, real_images, rate_ind: Union[float, Tensor], is_train: bool = True):
+    def forward(
+        self, real_images, rate_ind: Union[float, Tensor], is_train: bool = True
+    ):
         y = self.encoder(real_images, rate_ind)
         z = self.hyperencoder(y)
         z_hat, z_likelihood = self.entropy_model_z(z, is_train=is_train)
         hyper_out = self.hyperdecoder(z_hat)
         y_hat, y_likelihood = self.entropy_model_y(y, hyper_out, is_train=is_train)
-        
+
         fake_images = self.decoder(y_hat, rate_ind)
         if not is_train:
             fake_images = torch.clamp(fake_images, min=-1.0, max=1.0)
@@ -185,25 +187,25 @@ class InterpCaHyperpriorModel(HyperpriorModel):
             assert os.path.exists(save_dir), f'save_dir: "{save_dir}" does not exist.'
 
         for idx, data in enumerate(dataloader):
-            score_dict = {"idx": idx + 1}
+            score_dict: Dict[str, Any] = {"idx": idx + 1}
+
             for rate_ind in range(self.rate_level):
                 with torch.no_grad():
-                    out_dict = self.run_model(**data, rate_ind=float(rate_ind), is_train=False)
-                score_dict.update(
-                    {
-                        f"bpp_{rate_ind+1}": out_dict["bpp"].item(),
-                        f"psnr_{rate_ind+1}": calc_psnr(
-                            out_dict["real_images"], out_dict["fake_images"], 255
-                        ),
-                        f"ms_ssim_{rate_ind+1}": calc_ms_ssim(
-                            out_dict["real_images"], out_dict["fake_images"]
-                        ),
-                    }
-                )
+                    out_dict = self.run_model(
+                        **data, rate_ind=float(rate_ind), is_train=False
+                    )
+                    psnr = calc_psnr(out_dict["real_images"], out_dict["fake_images"], 255)
+                    ms_ssim = calc_ms_ssim(out_dict["real_images"], out_dict["fake_images"])
+
+                score_dict.update({
+                    f"bpp_{rate_ind+1}": out_dict["bpp"].mean().item(),
+                    f"psnr_{rate_ind+1}": psnr,
+                    f"ms_ssim_{rate_ind+1}": ms_ssim,
+                })
 
                 if save_img:
                     fake_path = os.path.join(
-                        save_dir, f"sample_{idx+1}_fake_lv{rate_ind+1}.jpg"
+                        save_dir, f"sample_{idx+1}_fake_q{rate_ind}.jpg"
                     )
                     imwrite(fake_path, out_dict["fake_images"])
                     if rate_ind == 0:

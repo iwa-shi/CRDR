@@ -40,17 +40,13 @@ class CSVLogger(object):
         """
         self.log_path = log_path
         
+        self.df = None
         if resume:
-            self.df = self._load_log(log_path)
-        else:
-            self.df = None
-
-    def _load_log(self, log_path: str) -> pd.DataFrame:
-        if os.path.exists(log_path):
-            df = pd.read_csv(log_path)
-            return df
-        else:
-            raise FileNotFoundError("Log file not found.")
+            if os.path.exists(log_path):
+                self.df = pd.read_csv(log_path)
+            else:
+                logger = get_root_logger()
+                logger.warning(f'Log file "{log_path}" not found.')
 
     def _save_log(self) -> None:
         if 'iter' in self.df:

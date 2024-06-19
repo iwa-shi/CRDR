@@ -9,13 +9,13 @@ from src.utils.registry import LOSS_REGISTRY
 
 @LOSS_REGISTRY.register()
 class LPIPSLoss(nn.Module):
-    def __init__(self, loss_weight: float, range_norm: bool=False, net: str='vgg'):
+    def __init__(self, loss_weight: float, range_norm: bool=False, net: str='alex'):
         """[summary]
 
         Args:
             loss_weight (float): [description]
             range_norm (bool, optional): [0, 1] -> [-1, 1]. Defaults to False.
-            net (str, optional): [description]. Defaults to 'vgg'.
+            net (str, optional): [description]. Defaults to 'alex'.
         """
         super().__init__()
         self.lamb_lpips = loss_weight

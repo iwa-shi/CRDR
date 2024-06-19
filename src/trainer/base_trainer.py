@@ -101,7 +101,7 @@ class BaseTrainer(object):
 
     def load_checkpoint(self, exp: str, itr: int, **kwargs) -> None:
         bolded_log('Load checkpoint', level="INFO", new_line=True)
-        log_dict_items(dict(exp=exp, iter=itr, **kwargs), level='INFO', indent=True)
+        log_dict_items(dict(exp=exp, iter=itr, **kwargs), level='INFO', indent=False)
         self._load_checkpoint(exp, itr, **kwargs)
 
     def _load_checkpoint(self, exp: str, itr: int, **kwargs) -> None:
@@ -210,7 +210,7 @@ class BaseTrainer(object):
     def save(self, current_iter: int) -> None:
         raise NotImplementedError()
 
-    ########## Util functions ######################################################################
+    ########## Utility functions ######################################################################
 
     @staticmethod
     def update_learning_rate(optimizer, new_lr: float):

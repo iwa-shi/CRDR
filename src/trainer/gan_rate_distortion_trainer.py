@@ -64,8 +64,7 @@ class GANRateDistortionTrainer(RateDistortionTrainer):
         g_loss_dict['distortion'] = self.distortion_loss(real_images, fake_images, **other_outputs)
         g_loss_dict['adv'] = self.gan_loss(g_fake, is_real=True, is_disc=False)
 
-        if self.rate_loss:
-            g_loss_dict['rate'] = self.rate_loss(bpp, **other_outputs, current_iter=current_iter)
+        g_loss_dict['rate'] = self.rate_loss(bpp, **other_outputs, current_iter=current_iter)
 
         if self.perceptual_loss:
             g_loss_dict['perceptual'] = self.perceptual_loss(real_images, fake_images)

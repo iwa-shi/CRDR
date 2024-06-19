@@ -174,25 +174,22 @@ class BetaCondInterpCaHyperpriorModel(InterpCaHyperpriorModel):
             for rate_ind in range(self.rate_level):
                 out_dict = self.run_model(
                     **data,
-                    rate_ind=rate_ind,
+                    rate_ind=float(rate_ind),
                     beta=beta,
                     is_train=False,
                 )
-                score_dict.update(
-                    {
-                        f"bpp_{rate_ind+1}": out_dict["bpp"].item(),
-                        f"psnr_{rate_ind+1}": calc_psnr(
-                            out_dict["real_images"], out_dict["fake_images"], 255
-                        ),
-                        f"ms_ssim_{rate_ind+1}": calc_ms_ssim(
-                            out_dict["real_images"], out_dict["fake_images"]
-                        ),
-                    }
-                )
+                psnr = calc_psnr(out_dict["real_images"], out_dict["fake_images"], 255)
+                ms_ssim = calc_ms_ssim(out_dict["real_images"], out_dict["fake_images"])
+
+                score_dict.update({
+                    f"bpp_{rate_ind+1}": out_dict["bpp"].mean().item(),
+                    f"psnr_{rate_ind+1}": psnr,
+                    f"ms_ssim_{rate_ind+1}": ms_ssim,
+                })
 
                 if save_img:
                     fake_path = os.path.join(
-                        save_dir, f"sample_{idx+1}_fake_lv{rate_ind+1}.jpg"
+                        save_dir, f"sample_{idx+1}_fake_q{rate_ind}.jpg"
                     )
                     imwrite(fake_path, out_dict["fake_images"])
                     if rate_ind == 0:
